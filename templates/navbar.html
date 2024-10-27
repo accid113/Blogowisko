@@ -1,0 +1,44 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Blogowisko</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto"> <!-- Use ms-auto for Bootstrap 5 or keep ml-auto for Bootstrap 4 -->
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' user.id %}">Mój profil</a> <!-- Simplified for clarity -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Zaloguj</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Zarejestruj</a>
+          </li>
+        {% endif %}
+      </ul>
+
+      {% if user.is_authenticated %}
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' user.id %}">
+              {% if user.profile.profile_image %}
+                <img src="{{ user.profile.profile_image.url }}" width="30" alt="Profile Image">
+              {% else %}
+                <img src="{% static 'images/profile_picture.jpg' %}" alt="Profile Image" width="30">
+              {% endif %}
+            </a>
+          </li>
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+

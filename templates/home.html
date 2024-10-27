@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static  %}
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-8">
+            <h1>Twoje Blogowisko:</h1>
+            <br/>
+
+            {% for post in posts %}
+                <div class="alert alert-info" role="alert">
+                <div class="container">
+            <div class="row">
+                <div class="col-1">
+                    {% if post.user.profile.profile_image %}
+                        <a href="{% url 'profile' post.user.pk %}">
+				<img src="{{ post.user.profile.profile_image.url }}" width=50 height=50 alt="{{ profile.user.username }}">
+                        </a>
+
+				{% else %}
+                        <a href="{% url 'profile' post.user.pk %}">
+				<img src="{% static 'images/profile_picture.jpg' %}" width=50 height=50 alt="{{ profile.user.username }}">	
+                        </a>
+                        
+				{% endif %}
+                </div>
+            <div class='col-11'>
+                    {{ post.body }}<br/>
+                    <small class="text-muted">
+                    @{{ post.user.username }}({{ post.created_at }})
+                        <a href="{% url 'post_detail' post.id %}"><i class="fas fa-comments"></i></a>
+                    </small>
+                    <br/>
+                </div>
+                <br/><br/>
+            </div>
+                </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-4">
+            <br/><br/><br/>
+
+            {% if form %}
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+                    
+                    <button type="submit" class="btn btn-secondary">Opublikuj!</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article>
+    <h2>{{ post.body }}</h2>
+    <p>Opublikowano: {{ post.created_at }}</p>
+</article>
+
+<section>
+    <h3>Komentarze</h3>
+    {% for comment in comments %}
+    <div class="comment">
+        <p>{{ comment.author }} ({{ comment.created_at }}): {{ comment.content }}</p>
+    </div>
+        
+        
+        
+    {% endfor %}
+</section>
+
+<section>
+    <h3>Dodaj komentarz</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Wyślij</button>
+    </form>
+</section>
+{% endblock %}
